@@ -1,2 +1,9 @@
 # Data-Augmentation
-Tools for creating data augmentation policies and selecting a random augmentation.
+
+The functions in this file are as follows:
+
+** augment_settingg **
+
+** choose_augment **
+
+** apply_augment **
