@@ -1,7 +1,7 @@
 # Code for implementing data augmentation
 
-from numpy.random import choice
 import numpy as np
+from numpy.random import choice, normal, uniform
 
 def augment_settings(policy_dict,*args,**kwargs):
     policies=[p for p in policy_dict]
@@ -214,8 +214,6 @@ def augment_settings(policy_dict,*args,**kwargs):
                           "opt_args":opt_args,"opt_kwargs":opt_kwargs}
 
     return standard_policy_dict
-
-from numpy.random import choice, normal, uniform
 
 def choose_augment(settings_dict,*args,**kwargs):
 
