@@ -28,10 +28,16 @@ Defines a function with one compulsory argment which is a random variable taken 
           
 This defines a function that has two compulsory arguments. The first can take on the value 1, 2 or 3 with equal probability and the second is chosen from a uniform distribustion over (3,4).
 
-          transformation={"main":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}
+          transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}}
           
 In the above, we specify all probabilities explicitly. The first compulsory argument chooses the value 1 with probability 0.2 and 2 with probability 0.8. The second compulsory argument chooses a value taken from a normal distribution derived from the interval (0,1). This normal distibution will have mean of the centre of the interval (in this case 0.5) and standard deviation of one quarter of the interval (95% of values chosen by this will be within the stated interval). Currently, the only options for values chosen from an interval are "uniform" and "normal" but more will be added in future. For the majority of functions, equal probability is likely to be enough but extra functionality is useful.
 
-If we have optional arguments and keyword arguments for a function, we must define the dictionary format as per the last example and add extra keywords for "opt_args" and "opt_kwargs" as described previously. The only not to make is that the probabilities for each argument, keyword argument and keyword value do not need to be defined explicitly unless desired. An automatic assignment is implemented similar to that of the compulsory arguments in the first example.
+If we have optional arguments and keyword arguments for a function, we must define the dictionary format as per the last example and add extra keywords for "opt_args" and "opt_kwargs" as described previously. The only not to make is that the probabilities for each argument, keyword argument and keyword value do not need to be defined explicitly unless desired. An automatic assignment is implemented similar to that of the compulsory arguments in the first example. Take the following example:
+
+          transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}
+                                  "opt_args":["extra_1","extra_2",["extra_3A","extra_3B"],
+                                  "opt_kwargs":{"options":["foo","bar"],"values":[[0,1,2],(0,1)]}}
+
+          
 
 
