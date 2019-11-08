@@ -12,4 +12,20 @@ The "probs" entry gives the independent probability of each optional argument oc
           
 While the output of this function is standard, the input is non-standard and can be designed in a such a way as to describe the augmentation policy in as simple a way as possible. To define all of these explicitly would be extremely tedious and should only be necessary for the finest degree of control. Instead we have the following permissible inputs.
 
-transformation_example=[1,2,3]
+          transformation_example=[1,2,3]
+          
+This defines a function with only one compulsory argument that can take on the value 1, 2 or 3 with equal probability.
+
+          transformation=(0,1)
+          
+Defines a function with one compulsory argment which is a random variable taken from the interval (0,1) using a uniform distribution.
+
+          transformation_example=[[1,2,3],(3,4)]
+          
+This defines a function that has two compulsory arguments. The first can take on the value 1, 2 or 3 with equal probability and the second is chosen from a uniform distribustion over (3,4).
+
+
+
+
+
+          transformation={"main":[],p
