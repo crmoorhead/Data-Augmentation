@@ -38,6 +38,17 @@ If we have optional arguments and keyword arguments for a function, we must defi
                                   "opt_args":["extra_1","extra_2",["extra_3A","extra_3B"],
                                   "opt_kwargs":{"options":["foo","bar"],"values":[[0,1,2],(0,1)]}}
 
-          
+There are no probabilties for the "opt_args" and "opt_kwargs" specified, only the valid arguments, keywords and values for each keyword. For "opt_args", the "probs" entry in the dictionary assigns a probability of 0.5 to no argument being used. If "None" is not chosen, then each of the possible arguments appliable are activated with probability 0.5. Where two or more options are mutually exclusive, they are assigned a joint probability of 0.5 and then one of the options is chosen with equal probability. For "opt_kwargs", the keyword choice follows the same pattern as "opt_args" and the values of each keyword follow the patten of "main". The above generates a augmentation policy subobject that is given by:
+ 
+                    transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}
+                                  "opt_args":{"options":["None","extra_1","extra_2",["extra_3A","extra_3B"],
+                                              "probs":[0.5,0.5,0.5,[0.5,[0.5.0.5]]]}
+                                  "opt_kwargs":{"options":["None","foo","bar"],"k_probs":[0.5,0.5,0.5]
+                                                "values":[[0,1,2],(0,1)], "v_probs":[[1/3,1/3,1/3],"uniform"]}}
+ 
+As mentioned at the beginning of this section, the goal is to produce an object of this format for each transformation in an augmentation policy and the output of the augmentation_settings function is a dictionary of such objects. 
 
+## Choosing and Applying a Transformation (or Transformations)
+
+With the transformation
 
