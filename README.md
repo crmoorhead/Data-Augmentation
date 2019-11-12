@@ -22,6 +22,21 @@ For the input, we define a dictionary consisting of an entry for each transforma
 
 This can be explicitly set using the optional "probs" keyword whose value is a list of probabilities corresponding to the order the transformations are given in the policy_dict. This may or may not include  the "None" transformation. By default, the "None" transforamtion is added into the viable options and the "policy_probs" will be evaluated as giving equal probability to all transformation, including the "None" transformation. 
 
+The following is an example of a fully defined augmentation policy for five transformations:
+
+    test_standard=augment_settings({"None":\[\],
+                                    "transform_1":{"main":\[\[1,2,3,4\],(-1,1)\],"opt_args":\["poss_1","poss_2"\],
+                                                "opt_kwargs":{"options":\["test",\["left","right","centre"\]\], 
+                                                              "values":    {"test":\[0,1\],"left":\[50\],"right":\[-50\],"centre":\["what","no"\]}}},
+                                   "transform_2":{"main":{"options":[(0,1),[1,2,3,4]],"probs":["normal",[0.1,0.2,0.3,0.4]]},
+                                                 "opt_args":["None",["Yes","No"],"Buggerit"]},
+                                   "transform_3":{"main":{"options":[(0,1),[1,2,3,4]]},
+                                                  "opt_kwargs":{"just":[5,10,15,20],"THis":0, "Test":["yes","no"]}},
+                                   "transform_4":[1,2,3,4],
+                                   "transform_5":(0,1),
+                                   "transform_6":[[1,2,3,4],(0,1)]},
+                                   probs=[0]+[1/6]*6)
+
 The standard dictionary form for each transformation consists of three keywords "main_args", "opt_args" and "opt_kwargs" which have values corresponding to the main arguments (that is, the compulsory inputs), the optional arguments and the optional keyword arguments of that transformation. The details of each are given in dictionary form. "main_args" has two entries, "options" and "probs" which give the options for each of the compulsory arguments in the form of a list of lists and a one to one corresponding list of lists for the probability of each option. "opt_args" has the same two entries, with values being set to be a list of strings or lists of strigns. Note that optional arguments are not mutually exclusive. Say that "extra_1" and "extra_2" are two possible optional functionalities of a given transformation, then one, both or neither can be applied and the probabilities associated are independent. In some cases, optional arguments _are_ mutually exclusive - images cannot be both "color" and "greyscale". We combine these examples as:
 
           "opt_args": {"options":["extra_1","extra_2,["color","grayscale"]],"probs":[0.5,0.5,[0.5,[0.5,0.5]]
