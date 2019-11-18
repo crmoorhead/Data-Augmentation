@@ -41,7 +41,7 @@ The following is an example of a fully defined augmentation policy for five tran
 
 Note that the description of each transformation varies in complexity. The most general method that allows the finest degree of control over augmentation policy for each transformation consists of a standard dictionary containing the three keywords "main_args", "opt_args" and "opt_kwargs" which have values corresponding to the main arguments (that is, the compulsory inputs), the optional arguments and the optional keyword arguments of that transformation. The details of each are given in dictionary form. 
 
-"main_args" has two entries, "options" and "probs" which give the options for each of the compulsory arguments in the form of a list of lists and a one to one corresponding list of lists for the probability of each option. 
+"main" has two entries, "options" and "probs" which give the options for each of the compulsory arguments in the form of a list of lists and a one to one corresponding list of lists for the probability of each option. 
 
 "opt_args" has the same two entries, with values being set to be a list containing strings or lists of strings. Note that optional arguments are not mutually exclusive. Say that "extra_1" and "extra_2" are two possible optional functionalities of a given transformation, then one, both or neither can be applied and the probabilities associated are independent. In some cases, optional arguments _are_ mutually exclusive - images cannot be both "color" and "greyscale". We combine these examples as:
 
@@ -53,7 +53,7 @@ For the "opt_kwargs" there are four items defined: "options","k_probs","values" 
 
 ### Defining Transformations More Simply
           
-While the above describes all possible augmentations possible for this implementation, it is too long to expect a user to defne things so tediously. For this reason, it accepts simpler inputs as in our original example. Here we explain how to use such simplifications.
+While the above describes all possible augmentations possible for this implementation, it is too long to expect a user to defne things so tediously, especially as we often assign equal probabilities to all options. For this reason, the function accepts simpler inputs as in our original example. Here we explain how to use such simplifications.
 
 When defining th possibilities a given transformation we have the following permissible inputs.
 
@@ -63,13 +63,23 @@ __list__
           
 This defines a function with only one compulsory argument that can take on the value 1, 2 or 3 with equal probability.
 
+__tuple__
+
           transformation=(0,1)
           
 Defines a function with one compulsory argment which is a random variable taken from the interval (0,1) using a uniform distribution.
 
+__list of lists/tuples__
+
           transformation_example=[[1,2,3],(3,4)]
           
-This defines a function that has two compulsory arguments. The first can take on the value 1, 2 or 3 with equal probability and the second is chosen from a uniform distribustion over (3,4).
+This defines a function that has two compulsory arguments. The first can take on the value 1, 2 or 3 with equal probability and the second is chosen from a uniform distribustion over (3,4). Note that if there is only one list or tuple insid the outer list, this is equivalent to one of the previous two forms.
+
+__dictionary forms__
+
+          transformation_example={"main":[[1,2],(0,1)]}
+          
+The above is equivalent to defining the main arguments as a mixed list of a list and tuple with the default assigned probabilities and distributions noted. We may want to use this form when we also have dictionary entries for "opt_args" or "kwargs" as we need to use a dictionary input in that case, but it sufficices to have a value that is of one of the previous forms.
 
           transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}}
           
@@ -91,7 +101,13 @@ There are no probabilties for the "opt_args" and "opt_kwargs" specified, only th
  
 As mentioned at the beginning of this section, the goal is to produce an object of this format for each transformation in an augmentation policy and the output of the augmentation_settings function is a dictionary of such objects. 
 
+### Examples
+
+
+
 ## Choosing and Applying a Transformation (or Transformations)
 
-With the transformation settings object defined, we can use it as a standard input 
+With the transformation settings object defined, we can use it as a standard input for the choose_augment inn:
+
+__choose\_augment(settings\_dict,\*args,\*\*kwargs)__: The se
 
