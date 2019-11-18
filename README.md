@@ -93,7 +93,7 @@ If we have optional arguments and keyword arguments for a function, we must defi
 
 There are no probabilties for the "opt_args" and "opt_kwargs" specified, only the valid arguments, keywords and values for each keyword. For "opt_args", the "probs" entry in the dictionary assigns a probability of 0.5 to no argument being used. If "None" is not chosen, then each of the possible arguments appliable are activated with probability 0.5. Where two or more options are mutually exclusive, they are assigned a joint probability of 0.5 and then one of the options is chosen with equal probability. For "opt_kwargs", the keyword choice follows the same pattern as "opt_args" and the values of each keyword follow the patten of "main". The above generates a augmentation policy subobject that is given by:
  
-                    transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}
+          transformation_example={"main":{"options":[[1,2],(0,1)],"probs":[[0.2,0.8],"normal"]}
                                   "opt_args":{"options":["None","extra_1","extra_2",["extra_3A","extra_3B"],
                                               "probs":[0.5,0.5,0.5,[0.5,[0.5.0.5]]]}
                                   "opt_kwargs":{"options":["None","foo","bar"],"k_probs":[0.5,0.5,0.5]
@@ -113,5 +113,7 @@ __choose\_augment(settings\_dict,\*args,\*\*kwargs)__: The settings\_dict argume
 
 __apply_augment(im, settings\_dict,functional\_dict,\*args,\*\*kwargs)__: This function applies a specific augmentation chosen at random according to our augmentation policy. im is the image we are applying the augmentation to (in the form of an array) and settings\_dict is the output from our augment\_settings function. functional\_dict is a dictionary that maps the names of the transformations in the settings dictionary (strings) to the actual functions. Importing the image\_toolbox functions, which we need to do to implement any data augmentation on images, will define this automatically as image\_functional. This is left as a compulsory argument rather than inbuilt as the augment\_settings and apply\_augment need not only be applied to images, but to any type of training data with a suitable set of augmentation policies that we might care to work with. The function has one keyword argument "serial_transformations" which allows us to apply multiple transformation to the same input. Its value will be a list of probabilities that a further transformation will be applied eg.
 
-       apply_augment(im,aug_policy, image_funtional
+                 apply_augment(im,aug_policy, image_functional,serial_transformations=[1.0,0.5,0.3])
+                 
+ The above states that there is a probability of 1 that we apply one transformation, a probability of 0.5 we apply two and a probability of 0.15 (0.5\*0.3) that we apply three. 
 
