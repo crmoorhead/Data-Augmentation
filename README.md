@@ -1,6 +1,6 @@
 # Data-Augmentation
 
-The data augmentation process comprises of three step. First, define all the transformations permissable with associated probabiities and options with their associated probabilities if desired. The augment_settings function produces a dictionary output that defines the augmentation policy fully in a standard way and accept a number of possible input formats. This dictionary serves as an input to the choose_augment which samples from the distribution defined by the augmentation policy in order to apply it to images or batches of images. Once selected, this is applied by the apply_augment function.
+The data augmentation process comprises of three steps. First, define all the transformations permissable with associated probabiities and options with their associated probabilities if desired. The augment_settings function produces a dictionary output that defines the augmentation policy fully in a standard way and accept a number of possible input formats. This dictionary serves as an input to the choose_augment which samples from the distribution defined by the augmentation policy in order to apply it to images or batches of images. Once selected, this is applied by the apply_augment function.
 
 ## Creating Augmentation Policies
 
@@ -117,6 +117,8 @@ __apply_augment(im, settings\_dict,functional\_dict,\*args,\*\*kwargs)__: This f
  The above states that there is a probability of 0.5 that we apply a second transformation and a probability of 0.15 (0.5\*0.3) that we apply a third. By default, the first transformation is picked to be "None" according to how we have set up our augmentation policy. The function alsp prevents the possibility of selecting two augmentations that are the same type. e.g. two reflections. Occasionaly it may be that an identical transformation can be generated two different ways eg. reflect and rotate can be the same as transpose, but it is generally assumed that such clashes are relatively rare. There is no limit to the number of transformations we can apply, but it is unlikely to be more than 2. 
  
 ## Further Uses
+
+The intended use for this is, of course, to be applied to a batch of inputs during training a neural network with each image having a different set of transformations being applied to it. The space of possible images can quickly grow to be extremely huge. These functions can also, however, be used elsewhere. The image\_toolbox has a process function which will take a group of images and save them to a given directory. We may not, however, wish to do this as it takes up space. We may also not wish to import the entire dataset as it may place too much burden on the working memory. Instead we can create a carefully designed batch and augmentation combination that will allow us to import the datasets a piece at the time under a fixed transformation. For example, we might want to examine how biased or generalised the dataset is. It would be revealing if, for example, the test set and an exact copy of the test set but with all images flipped horizontally had very different accuracy rates. Augmentation of the training and validation sets should prevent this from occurring, but there are circumstances where such a test might be useful.
 
 ## Examples
 
