@@ -41,7 +41,7 @@ The following is an example of a fully defined augmentation policy for five tran
 
 Note that the description of each transformation varies in complexity. The most general method that allows the finest degree of control over augmentation policy for each transformation consists of a standard dictionary containing the three keywords "main_args", "opt_args" and "opt_kwargs" which have values corresponding to the main arguments (that is, the compulsory inputs), the optional arguments and the optional keyword arguments of that transformation. The details of each are given in dictionary form. 
 
-"main" has two entries, "options" and "probs" which give the options for each of the compulsory arguments in the form of a list of lists and a one to one corresponding list of lists for the probability of each option. 
+"main" has two entries, "options" and "probs" which give the options for each of the compulsory arguments in the form of a list of lists and a one to one corresponding list of lists for the probability of each option. There is a (reasonable) limit in that no transformation may have more than three compulsory arguments, but it need not have any e.g. reflect takes only optional string arguments.
 
 "opt_args" has the same two entries, with values being set to be a list containing strings or lists of strings. Note that optional arguments are not mutually exclusive. Say that "extra_1" and "extra_2" are two possible optional functionalities of a given transformation, then one, both or neither can be applied and the probabilities associated are independent. In some cases, optional arguments _are_ mutually exclusive - images cannot be both "color" and "greyscale". We combine these examples as:
 
@@ -104,7 +104,6 @@ As mentioned at the beginning of this section, the goal is to produce an object 
 ### Examples
 
 
-
 ## Choosing and Applying a Transformation (or Transformations)
 
 With the transformation settings object defined, we can use it as a standard input for the choose_augment function. This is a helper function that is used only in the apply_augment function.
@@ -113,7 +112,11 @@ __choose\_augment(settings\_dict,\*args,\*\*kwargs)__: The settings\_dict argume
 
 __apply_augment(im, settings\_dict,functional\_dict,\*args,\*\*kwargs)__: This function applies a specific augmentation chosen at random according to our augmentation policy. im is the image we are applying the augmentation to (in the form of an array) and settings\_dict is the output from our augment\_settings function. functional\_dict is a dictionary that maps the names of the transformations in the settings dictionary (strings) to the actual functions. Importing the image\_toolbox functions, which we need to do to implement any data augmentation on images, will define this automatically as image\_functional. This is left as a compulsory argument rather than inbuilt as the augment\_settings and apply\_augment need not only be applied to images, but to any type of training data with a suitable set of augmentation policies that we might care to work with. The function has one keyword argument "serial_transformations" which allows us to apply multiple transformation to the same input. Its value will be a list of probabilities that a further transformation will be applied eg.
 
-                 apply_augment(im,aug_policy, image_functional,serial_transformations=[1.0,0.5,0.3])
+                 apply_augment(im,aug_policy, image_functional,serial_transformations=[0.5,0.3])
                  
- The above states that there is a probability of 1 that we apply one transformation, a probability of 0.5 we apply two and a probability of 0.15 (0.5\*0.3) that we apply three. 
+ The above states that there is a probability of 0.5 that we apply a second transformation and a probability of 0.15 (0.5\*0.3) that we apply a third. By default, the first transformation is picked to be "None" according to how we have set up our augmentation policy. The function alsp prevents the possibility of selecting two augmentations that are the same type. e.g. two reflections. Occasionaly it may be that an identical transformation can be generated two different ways eg. reflect and rotate can be the same as transpose, but it is generally assumed that such clashes are relatively rare. There is no limit to the number of transformations we can apply, but it is unlikely to be more than 2. 
+ 
+## Further Uses
+
+## Examples
 
