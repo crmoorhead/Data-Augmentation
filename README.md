@@ -8,6 +8,8 @@ The augment_settings function allows a high degree of functionality to specify w
 
 __augment_settings(policy_dict,\*args,\*\*kwargs)__: The purpose of this function is to produce a standardised input for the choose_augment function that will give instructions about how we pick which policies are applied to each image. 
 
+### Fitting to Standard Form
+
 The output of this function has a standard dictionary form which will contains entries detailing necessary aspects of the augmentation policy. It consists of five dictionary entries which contain lists or dictionaries themselves. They are:
 
  - _policies_: A list of strings of all transformations it is possible to apply. This always includes the "None" transformation where no policy is applied. 
@@ -18,7 +20,9 @@ The output of this function has a standard dictionary form which will contains e
  
 Examples of this output for given inputs are given later.
 
-For the input, we define a dictionary consisting of an entry for each transformation possible with one extra optional entry "probs" that we can assign explcit probabilities to the the transformations. If the "None" transformation is not specified, then it will be implemented in the output of the function, so if one wants the input to always be different from the output, then it should be specified and assigned a probability of zero in thr "probs" keyword argument. If no probabilities are specified for the transformations, they will be automatically assigned an equal probability of occurring, including the "None" transformation.
+### Defining Input Transformations
+
+For the input, we define a dictionary consisting of an entry for each transformation possible with one extra optional entry "probs" that we can assign explcit probabilities to the the transformations. If the "None" transformation is not specified, then it will be implemented in the output of the function, so if one wants the input to always be different from the output, then it should be specified and assigned a probability of zero in the "probs" keyword argument. If no probabilities are specified for the transformations, they will be automatically assigned an equal probability of occurring, including the "None" transformation.
 
 The following is an example of a fully defined augmentation policy for five transformations:
 
@@ -43,11 +47,17 @@ Note that the description of each transformation varies in complexity. The most 
 
           "opt_args": {"options":["extra_1","extra_2,["color","grayscale"]],"probs":[0.5,0.5,[0.5,[0.5,0.5]]
 
-The "probs" entry gives the independent probability of each optional argument occurring or, in the case of mutually exclusive arguments, the joint probability of any of the mutually exclusive options occurring followed by a list detailing the probability of each option. This functionality does not cover all possible structures, but it is sufficiently flexible and can be borne in mind when designing new transformations. For the "opt_kwargs" there are four items defined: "options","k_probs","values" and "v_probs". The first two take the same form as the "opt_args" in that keyword arguments can be used in conjunction with one another and are not mutually exclusive with the first defining recognised keywords and the second the associated probabilities. The last two are the same form as the entries for "options" and "probs" in "main_args" in that each chosen keyword must have one, and only one, value it takes on. "values" and "v_probs" define the possible values and probabilities. 
+The "probs" entry gives the independent probability of each optional argument occurring or, in the case of mutually exclusive arguments, the joint probability of any of the mutually exclusive options occurring followed by a list detailing the probability of each option. This functionality does not cover all possible structures, but it is sufficiently flexible and can be borne in mind when designing new transformations. 
 
-__Simpler Transformations__
+For the "opt_kwargs" there are four items defined: "options","k_probs","values" and "v_probs". The first two take the same form as the "opt_args" in that keyword arguments can be used in conjunction with one another and are not mutually exclusive with the first defining recognised keywords and the second the associated probabilities. The last two are the same form as the entries for "options" and "probs" in "main_args" in that each chosen keyword must have one, and only one, value it takes on. "values" and "v_probs" define the possible values and probabilities.
+
+### Defining Transformations More Simply
           
-While the output of this function is standard, the input is non-standard and can be designed in a such a way as to describe the augmentation policy in as simple a way as possible. To define all of these explicitly would be extremely tedious and should only be necessary for the finest degree of control. Instead we have the following permissible inputs.
+While the above describes all possible augmentations possible for this implementation, it is too long to expect a user to defne things so tediously. For this reason, it accepts simpler inputs as in our original example. Here we explain how to use such simplifications.
+
+When defining th possibilities a given transformation we have the following permissible inputs.
+
+__list__
 
           transformation_example=[1,2,3]
           
