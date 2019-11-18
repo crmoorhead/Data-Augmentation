@@ -107,7 +107,11 @@ As mentioned at the beginning of this section, the goal is to produce an object 
 
 ## Choosing and Applying a Transformation (or Transformations)
 
-With the transformation settings object defined, we can use it as a standard input for the choose_augment inn:
+With the transformation settings object defined, we can use it as a standard input for the choose_augment function. This is a helper function that is used only in the apply_augment function.
 
-__choose\_augment(settings\_dict,\*args,\*\*kwargs)__: The se
+__choose\_augment(settings\_dict,\*args,\*\*kwargs)__: The settings\_dict argument is the output from the previous function. There is one optional argument "print_policies" which will print the chosen policies. In the normal running of training, this should not be activated and should be deprecated in future.
+
+__apply_augment(im, settings\_dict,functional\_dict,\*args,\*\*kwargs)__: This function applies a specific augmentation chosen at random according to our augmentation policy. im is the image we are applying the augmentation to (in the form of an array) and settings\_dict is the output from our augment\_settings function. functional\_dict is a dictionary that maps the names of the transformations in the settings dictionary (strings) to the actual functions. Importing the image\_toolbox functions, which we need to do to implement any data augmentation on images, will define this automatically as image\_functional. This is left as a compulsory argument rather than inbuilt as the augment\_settings and apply\_augment need not only be applied to images, but to any type of training data with a suitable set of augmentation policies that we might care to work with. The function has one keyword argument "serial_transformations" which allows us to apply multiple transformation to the same input. Its value will be a list of probabilities that a further transformation will be applied eg.
+
+       apply_augment(im,aug_policy, image_funtional
 
